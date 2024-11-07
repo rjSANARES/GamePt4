@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Color Game</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #e0f7fa;
+            margin: 0;
+            color: #333;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Game Container */
+        .gameContainer {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ccc;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* Draggable and Droppable Containers */
+        .draggableContainer, .droppableContainer {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Draggable Color Boxes */
+        .box {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease;
+            border: 2px solid #ddd;
+        }
+
+        .box:active {
+            transform: scale(0.95);
+        }
+
+        /* Droppable Target Boxes */
+        .droppable {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: bold;
+            border: 2px dashed #bbb;
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+        .matched {
+            border: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Score and Remarks Section */
+        .board {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #remarks {
+            font-size: 1.5em;
+            color: green;
+            font-weight: bold;
+        }
+
+        #scores {
+            font-size: 1.2em;
+            color: blue;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="gameContainer">
+        <header>
+            <h1>Guess the Color Game</h1>
+        </header>
+        
+        <div class="draggableContainer">
+            <!-- Draggable Color Boxes -->
+            <div class="box" draggable="true" id="red" style="background-color: #FF5C5C;"></div>
+            <div class="box" draggable="true" id="blue" style="background-color: #5C85FF;"></div>
+            <div class="box" draggable="true" id="yellow" style="background-color: #FFD966;"></div>
+            <div class="box" draggable="true" id="green" style="background-color: #4CAF50;"></div>
+            <div class="box" draggable="true" id="orange" style="background-color: #FFB84C;"></div>
+            <div class="box" draggable="true" id="purple" style="background-color: #B05CFF;"></div>
+            <div class="box" draggable="true" id="pink" style="background-color: #FF69B4;"></div>
+            <div class="box" draggable="true" id="brown" style="background-color: #A52A2A;"></div>
+            <div class="box" draggable="true" id="cyan" style="background-color: #00FFFF;"></div>
+            <div class="box" draggable="true" id="magenta" style="background-color: #FF00FF;"></div>
+            <div class="box" draggable="true" id="lime" style="background-color: #BFFF00;"></div>
+            <div class="box" draggable="true" id="black" style="background-color: #000000;"></div>
+            <div class="box" draggable="true" id="white" style="background-color: #FFFFFF; border: 2px solid #ddd;"></div>
+            <div class="box" draggable="true" id="gray" style="background-color: #808080;"></div>
+            <div class="box" draggable="true" id="teal" style="background-color: #008080;"></div>
+            <div class="box" draggable="true" id="olive" style="background-color: #808000;"></div>
+            <div class="box" draggable="true" id="navy" style="background-color: #000080;"></div>
+            <div class="box" draggable="true" id="maroon" style="background-color: #800000;"></div>
+            <div class="box" draggable="true" id="violet" style="background-color: #8A2BE2;"></div>
+        </div>
+        
+        <div class="droppableContainer" id="droppableContainer">
+            <!-- Drop Boxes with Color Names -->
+            <div class="droppable" data-draggable-id="red">Red</div>
+            <div class="droppable" data-draggable-id="blue">Blue</div>
+            <div class="droppable" data-draggable-id="yellow">Yellow</div>
+            <div class="droppable" data-draggable-id="green">Green</div>
+            <div class="droppable" data-draggable-id="orange">Orange</div>
+            <div class="droppable" data-draggable-id="purple">Purple</div>
+            <div class="droppable" data-draggable-id="pink">Pink</div>
+            <div class="droppable" data-draggable-id="brown">Brown</div>
+            <div class="droppable" data-draggable-id="cyan">Cyan</div>
+            <div class="droppable" data-draggable-id="magenta">Magenta</div>
+            <div class="droppable" data-draggable-id="lime">Lime</div>
+            <div class="droppable" data-draggable-id="black">Black</div>
+            <div class="droppable" data-draggable-id="white">White</div>
+            <div class="droppable" data-draggable-id="gray">Gray</div>
+            <div class="droppable" data-draggable-id="teal">Teal</div>
+            <div class="droppable" data-draggable-id="olive">Olive</div>
+            <div class="droppable" data-draggable-id="navy">Navy</div>
+            <div class="droppable" data-draggable-id="maroon">Maroon</div>
+            <div class="droppable" data-draggable-id="violet">Violet</div>
+        </div>
+        
+        <div class="board">
+            <p>Remarks: <span id="remarks"></span></p>
+            <p>Score: <span id="scores">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        const draggableElements = document.querySelectorAll('.box');
+        const droppableElements = document.querySelectorAll('.droppable');
+        let score = 0;
+
+        // Function to shuffle elements within a container
+        function shuffleDroppables() {
+            const droppableContainer = document.getElementById('droppableContainer');
+            const droppables = Array.from(droppableContainer.children);
+            droppables.sort(() => Math.random() - 0.5); // Shuffle array
+            droppables.forEach(droppable => droppableContainer.appendChild(droppable)); // Append shuffled items
+        }
+
+        // DRAG START EVENT
+        draggableElements.forEach(element => {
+            element.addEventListener('dragstart', event => {
+                event.dataTransfer.setData('text', event.target.id);
+            });
+        });
+
+        // DROP EVENT
+        droppableElements.forEach(element => {
+            element.addEventListener('drop', event => {
+                event.preventDefault();
+                const draggedElementId = event.dataTransfer.getData('text');
+                const dropZoneId = event.target.getAttribute('data-draggable-id');
+
+                // Check if the dropped color matches the target
+                if (draggedElementId === dropZoneId) {
+                    event.target.style.backgroundColor = document.getElementById(draggedElementId).style.backgroundColor;
+                    event.target.classList.add('matched');
+                    document.getElementById(draggedElementId).style.visibility = 'hidden'; // Hide matched item
+                    score += 1;
+                    document.getElementById('remarks').innerText = "RIGHT!";
+                    document.getElementById('scores').innerText = score;
+                    checkWin();
+                } else {
+                    document.getElementById('remarks').innerText = "WRONG! Try again!";
+                }
+            });
+
+            // DRAG OVER EVENT
+            element.addEventListener('dragover', event => {
+                event.preventDefault();
+            });
+        });
+
+        // CHECK WINNING CONDITION
+        function checkWin() {
+            if (score === draggableElements.length) {
+                document.getElementById('remarks').innerText = "Congratulations! You've matched all colors!";
+            }
+        }
+
+        // Shuffle droppables on page load
+        shuffleDroppables();
+    </script>
+</body>
+</html>
